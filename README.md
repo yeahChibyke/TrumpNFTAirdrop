@@ -1,3 +1,3 @@
-## Trumpd NFT
+![](./img/trumpd.png)
 
-Ready to get trumpd??!!!
+# Ready to get trumpd??!!!
