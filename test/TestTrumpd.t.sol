@@ -6,7 +6,7 @@ import {Test, console2} from "forge-std/Test.sol";
 import {DeployTrumpd} from "../script/DeployTrumpd.s.sol";
 
 contract TestTrumpd is Test {
-    Trumpd trumpd;
+    Trumpd nft;
     DeployTrumpd deployer;
 
     string public constant NFT_NAME = "Trumpd NFT";
@@ -20,24 +20,24 @@ contract TestTrumpd is Test {
 
     function setUp() public {
         deployer = new DeployTrumpd();
-        trumpd = deployer.run();
+        nft = deployer.run();
     }
 
     function testInitializedCorrectly() public view {
-        assert(keccak256(abi.encodePacked(trumpd.name())) == keccak256(abi.encodePacked(NFT_NAME)));
-        assert(keccak256(abi.encodePacked(trumpd.symbol())) == keccak256(abi.encodePacked(NFT_SYMBOL)));
+        assert(keccak256(abi.encodePacked(nft.name())) == keccak256(abi.encodePacked(NFT_NAME)));
+        assert(keccak256(abi.encodePacked(nft.symbol())) == keccak256(abi.encodePacked(NFT_SYMBOL)));
     }
 
     function testCanViewTokenURI() public {
-        trumpd.mintTrumpd(Ifunanya, 1);
+        nft.mintTrumpd(Ifunanya, 1);
 
-        console2.log(trumpd.tokenURI(0));
+        console2.log(nft.tokenURI(0));
     }
 
     function testCanMintAndHaveBalance() public {
         // vm.prank(Chibyke);
-        trumpd.mintTrumpd(Chibyke, 1);
+        nft.mintTrumpd(Chibyke, 1);
 
-        assert(trumpd.balanceOf(Chibyke) == 1);
+        assert(nft.balanceOf(Chibyke) == 1);
     }
 }

@@ -22,7 +22,7 @@ contract GetTrumpdAirdrop {
     event GotTrumpd(address indexed claimer, uint256 indexed amount);
 
     // >---> Constructor
-    constructor(bytes32 merkleRoot, Trumpd trumpd) {
+    constructor(bytes32 merkleRoot, IERC721 trumpd) {
         i_merkleRoot = merkleRoot;
         i_trumpd = trumpd;
     }
