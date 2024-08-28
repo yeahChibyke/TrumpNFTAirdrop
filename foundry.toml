@@ -5,7 +5,10 @@ libs = ["lib"]
 
 ffi = true
 
-fs_permissions = [{ access = "read-write", path = "./" }]
+fs_permissions = [
+    { access = "read", path = "./img" },
+    { access = "read", path = "./broadcast" },
+]
 
 remappings = [
     "@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/",
@@ -15,7 +18,7 @@ remappings = [
     "halmos-cheatcodes/=lib/openzeppelin-contracts/lib/halmos-cheatcodes/src/",
     "murky/=lib/murky/",
     "openzeppelin-contracts/=lib/openzeppelin-contracts/",
-    "Foundry-Devops/=lib/Foundry-Devops"
+    "Foundry-Devops/=lib/Foundry-Devops",
 ]
 
 # See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options
