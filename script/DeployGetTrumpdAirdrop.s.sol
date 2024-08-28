@@ -13,6 +13,7 @@ contract DeployGetTrumpdAirdrop is Script {
 
     DeployTrumpd public deployer;
 
+    /// @dev transferFrom() is used here instead of safeTransferFrom() which is used in the GetTrumpdAirdrop contract. This is because of the ERC721InvalidReceiverError returned by safeTransferFrom in testing
     function deployGetTrumpdAirdrop() public returns (Trumpd, GetTrumpdAirdrop) {
         vm.startBroadcast();
 
@@ -22,10 +23,6 @@ contract DeployGetTrumpdAirdrop is Script {
         GetTrumpdAirdrop airdrop = new GetTrumpdAirdrop(s_merkleRoot, IERC721(address(nft)));
 
         nft.mintTrumpd(nft.owner(), MINT_AMOUNT);
-
-        console2.log("This is the nft owner address: ", nft.owner());
-        console2.log("This is the nft address: ", address(nft));
-        console2.log("This is the airdrop address: ", address(airdrop));
 
         for (uint256 i = 0; i < MINT_AMOUNT; i++) {
             nft.transferFrom(nft.owner(), address(airdrop), i);

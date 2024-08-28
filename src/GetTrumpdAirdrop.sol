@@ -4,8 +4,9 @@ pragma solidity ^0.8.24;
 import {Trumpd} from "./Trumpd.sol";
 import {MerkleProof} from "@openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
 import {IERC721} from "@openzeppelin/contracts/token/ERC721/IERC721.sol";
+import {ReentrancyGuard} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 
-contract GetTrumpdAirdrop {
+contract GetTrumpdAirdrop is ReentrancyGuard {
     // >---> Errors
     error GTA__InvalidProof();
     error GTA__AlreadyGotTrumpd();
@@ -28,7 +29,7 @@ contract GetTrumpdAirdrop {
     }
 
     // >---> External Functions
-    function getTrumpd(address receiver, uint256 amount, bytes32[] calldata merkleProof) external {
+    function getTrumpd(address receiver, uint256 amount, bytes32[] calldata merkleProof) external nonReentrant {
         if (s_hasGotTrumpd[receiver]) {
             revert GTA__AlreadyGotTrumpd();
         }
