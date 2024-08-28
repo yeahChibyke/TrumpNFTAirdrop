@@ -5,7 +5,7 @@ import {Script, console2} from "forge-std/Script.sol";
 import {stdJson} from "forge-std/StdJson.sol";
 
 contract GenerateInput is Script {
-    uint256 private constant AMOUNT = 1e18;
+    uint256 private constant AMOUNT = 1;
     string[] types = new string[](2);
     uint256 count;
     string[] whitelist = new string[](4);

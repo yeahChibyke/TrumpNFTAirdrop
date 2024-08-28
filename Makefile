@@ -6,3 +6,5 @@ deploy:
 test: 
 	forge test --rpc-url $(SEP_RPC_URL)
 
+generate-input:
+	forge script script/GenerateInput.s.sol:GenerateInput -vv
