@@ -8,3 +8,7 @@ test:
 
 generate-input:
 	forge script script/GenerateInput.s.sol:GenerateInput -vv
+
+make-merkle:
+	forge script script/MakeMerkle.s.sol:MakeMerkle -vv
+	
