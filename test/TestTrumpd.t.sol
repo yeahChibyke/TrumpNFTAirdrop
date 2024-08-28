@@ -35,9 +35,23 @@ contract TestTrumpd is Test {
     }
 
     function testCanMintAndHaveBalance() public {
-        // vm.prank(Chibyke);
         nft.mintTrumpd(Chibyke, 1);
 
         assert(nft.balanceOf(Chibyke) == 1);
+    }
+
+    function testCanMintMoreThanOneTrumpd() public {
+        nft.mintTrumpd(Chibyke, 5);
+
+        assert(nft.balanceOf(Chibyke) == 5);
+    }
+
+    function testCanMintToMultiplePersons() public {
+        nft.mintTrumpd(Chibyke, 10);
+        nft.mintTrumpd(Ifunanya, 20);
+
+        assert(nft.getTokenCounter() == 30);
+        assert(nft.getAmountOfTrumpdOwned(Chibyke) == 10);
+        assert(nft.getAmountOfTrumpdOwned(Ifunanya) == 20);
     }
 }

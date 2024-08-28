@@ -24,9 +24,10 @@ contract Trumpd is ERC721, Ownable {
 
     // >------< Functions >-----<
     function mintTrumpd(address receiver, uint256 amount) external {
-        amount = s_tokenCounter;
-        _safeMint(receiver, amount);
-        s_tokenCounter++;
+        for (uint256 i = 0; i < amount; i++) {
+            _safeMint(receiver, s_tokenCounter);
+            s_tokenCounter++;
+        }
 
         emit TrumpdMinted(receiver);
     }

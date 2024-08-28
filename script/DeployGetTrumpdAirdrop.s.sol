@@ -22,9 +22,14 @@ contract DeployGetTrumpdAirdrop is Script {
         GetTrumpdAirdrop airdrop = new GetTrumpdAirdrop(s_merkleRoot, IERC721(address(nft)));
 
         nft.mintTrumpd(nft.owner(), MINT_AMOUNT);
-        console2.log(nft.owner());
 
-        nft.transferFrom(nft.owner(), address(airdrop), MINT_AMOUNT);
+        console2.log("This is the nft owner address: ", nft.owner());
+        console2.log("This is the nft address: ", address(nft));
+        console2.log("This is the airdrop address: ", address(airdrop));
+
+        for (uint256 i = 0; i < MINT_AMOUNT; i++) {
+            nft.transferFrom(nft.owner(), address(airdrop), i);
+        }
 
         vm.stopBroadcast();
 
