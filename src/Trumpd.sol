@@ -26,10 +26,9 @@ contract Trumpd is ERC721, Ownable {
     function mintTrumpd(address receiver, uint256 amount) external {
         for (uint256 i = 0; i < amount; i++) {
             _safeMint(receiver, s_tokenCounter);
+            emit TrumpdMinted(receiver);
             s_tokenCounter++;
         }
-
-        emit TrumpdMinted(receiver);
     }
 
     function _baseURI() internal pure override returns (string memory) {
@@ -46,15 +45,13 @@ contract Trumpd is ERC721, Ownable {
             abi.encodePacked(
                 _baseURI(),
                 Base64.encode(
-                    bytes( // bytes casting actually unnecessary as 'abi.encodePacked()' returns a bytes
-                        abi.encodePacked(
-                            '{"name":"',
-                            name(),
-                            '", "description":"Trumpd NFT. Wanna get Trumpd!!!", ',
-                            '"attributes": [{"trait_type": "personality", "value": 100}], "image":"',
-                            imageURI,
-                            '"}'
-                        )
+                    abi.encodePacked(
+                        '{"name":"',
+                        name(),
+                        '", "description":"Trumpd NFT. Wanna get Trumpd!!!", ',
+                        '"attributes": [{"trait_type": "personality", "value": 100}], "image":"',
+                        imageURI,
+                        '"}'
                     )
                 )
             )

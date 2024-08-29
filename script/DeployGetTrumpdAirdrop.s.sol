@@ -24,6 +24,9 @@ contract DeployGetTrumpdAirdrop is Script {
 
         nft.mintTrumpd(nft.owner(), MINT_AMOUNT);
 
+        // Set approval for all before transferring
+        // nft.setApprovalForAll(address(airdrop), true);
+
         for (uint256 i = 0; i < MINT_AMOUNT; i++) {
             nft.transferFrom(nft.owner(), address(airdrop), i);
         }

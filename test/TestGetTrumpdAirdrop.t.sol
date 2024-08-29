@@ -30,11 +30,13 @@ contract TestGetTrumpdAirdrop is Test {
         nft = nftDeployer.run();
         airdrop = new GetTrumpdAirdrop(ROOT, nft);
 
-        nft.mintTrumpd(nft.owner(), SEND_AMOUNT);
+        address owner = nft.owner();
+
+        nft.mintTrumpd(owner, SEND_AMOUNT);
         nft.setApprovalForAll(address(airdrop), true);
 
         for (uint256 i = 0; i < SEND_AMOUNT; i++) {
-            nft.transferFrom(nft.owner(), address(airdrop), i);
+            nft.transferFrom(owner, address(airdrop), i);
         }
 
         (user, userPrvKey) = makeAddrAndKey("user");

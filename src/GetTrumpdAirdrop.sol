@@ -44,7 +44,9 @@ contract GetTrumpdAirdrop is ReentrancyGuard {
 
         emit GotTrumpd(receiver, amount);
 
-        i_trumpd.safeTransferFrom(address(i_trumpd), receiver, amount);
+        for (uint256 i = 0; i < amount; i++) {
+            i_trumpd.safeTransferFrom(address(this), receiver, i); // Assuming i is the token ID
+        }
     }
 
     // >---> External Functions
