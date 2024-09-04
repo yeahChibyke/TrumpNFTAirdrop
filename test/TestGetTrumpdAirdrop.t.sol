@@ -31,13 +31,14 @@ contract TestGetTrumpdAirdrop is Test {
         airdrop = new GetTrumpdAirdrop(ROOT, nft);
 
         address owner = nft.owner();
-
+        vm.startPrank(owner);
         nft.mintTrumpd(owner, SEND_AMOUNT);
         nft.setApprovalForAll(address(airdrop), true);
 
         for (uint256 i = 0; i < SEND_AMOUNT; i++) {
             nft.transferFrom(owner, address(airdrop), i);
         }
+        vm.stopPrank();
 
         (user, userPrvKey) = makeAddrAndKey("user");
     }
