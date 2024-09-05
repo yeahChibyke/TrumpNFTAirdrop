@@ -25,22 +25,35 @@ contract TestGetTrumpdAirdrop is Test {
     uint256 constant CLAIM_AMOUNT = 25;
     uint256 constant SEND_AMOUNT = 100;
 
+    address owner;
+
     function setUp() public {
         nftDeployer = new DeployTrumpd();
         nft = nftDeployer.run();
         airdrop = new GetTrumpdAirdrop(ROOT, nft);
 
-        address owner = nft.owner();
+        owner = nft.owner();
+
         vm.startPrank(owner);
+
         nft.mintTrumpd(owner, SEND_AMOUNT);
         nft.setApprovalForAll(address(airdrop), true);
 
         for (uint256 i = 0; i < SEND_AMOUNT; i++) {
             nft.transferFrom(owner, address(airdrop), i);
         }
+
         vm.stopPrank();
 
         (user, userPrvKey) = makeAddrAndKey("user");
+    }
+
+    function testGTASetUp() public view {
+        uint256 airdropBal = nft.getAmountOfTrumpdOwned(address(airdrop));
+        uint256 ownerBal = nft.getAmountOfTrumpdOwned(owner);
+
+        console2.log(airdropBal);
+        console2.log(ownerBal);
     }
 
     function testUserCanClaim() public {
