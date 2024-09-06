@@ -22,8 +22,8 @@ contract TestGetTrumpdAirdrop is Test {
 
     address user;
     uint256 userPrvKey;
-    uint256 constant CLAIM_AMOUNT = 25;
-    uint256 constant SEND_AMOUNT = 100;
+    uint256 constant CLAIM_AMOUNT = 1;
+    uint256 constant SEND_AMOUNT = 10;
 
     address owner;
 
@@ -55,7 +55,7 @@ contract TestGetTrumpdAirdrop is Test {
         console2.log(airdropBal);
         console2.log(ownerBal);
 
-        console2.log("Th is the user: ", user);
+        console2.log("This is the user: ", user);
         console2.log("This is the userPrvKey: ", userPrvKey);
     }
 
@@ -63,7 +63,9 @@ contract TestGetTrumpdAirdrop is Test {
         uint256 initbalOfUser = nft.getAmountOfTrumpdOwned(user);
         uint256 nftInAirdrop = nft.getAmountOfTrumpdOwned(address(airdrop));
 
-        vm.prank(user);
+        address boss; // i created this address to prove a point
+
+        vm.prank(boss); // I didn't need to vm.prank() anyone to call this claim function. I am using it to prove a point
         airdrop.getTrumpd(user, CLAIM_AMOUNT, PROOF);
 
         uint256 currentBalOfUser = nft.getAmountOfTrumpdOwned(user);
@@ -74,7 +76,7 @@ contract TestGetTrumpdAirdrop is Test {
         console2.log("This is the currentBalOfUser: ", currentBalOfUser);
         console2.log("This is the remNftInAirdrop: ", remNftInAirdrop);
 
-        // assertEq(currentBalOfUser - initbalOfUser, CLAIM_AMOUNT);
-        // assertEq(remNftInAirdrop, nftInAirdrop - currentBalOfUser);
+        assertEq(currentBalOfUser - initbalOfUser, CLAIM_AMOUNT);
+        assertEq(remNftInAirdrop, nftInAirdrop - currentBalOfUser);
     }
 }
