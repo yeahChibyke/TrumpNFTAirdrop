@@ -8,13 +8,18 @@ import {EIP712} from "@openzeppelin/contracts/utils/cryptography/EIP712.sol";
 import {ECDSA} from "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import {ReentrancyGuard} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 
+/**
+ * @title Get Trumpd Airdrop
+ * @author Chukwubuike Victory Chime a.k.a. yeahChibyke
+ * @notice This contract handles the distribution of Trumpd NFTs via a Merkle Tree-based airdrop
+ */
 contract GetTrumpdAirdrop is EIP712, ReentrancyGuard {
     // >---> Errors
     /// @dev thrown when the provided Merkle proof is invalid
     error GTA__InvalidProof();
     /// @dev thrown when an account wants to get Trumpd more than once
     error GTA__AlreadyGotTrumpd();
-    /// @dev thrown when the provided ECDSA is invalid
+    /// @dev thrown when the provided ECDSA signature is invalid
     error GTA__SignatureInvalid();
 
     // >---> Type Declaration
@@ -133,20 +138,12 @@ contract GetTrumpdAirdrop is EIP712, ReentrancyGuard {
             _hashTypedDataV4(keccak256(abi.encode(MESSAGE_TYPEHASH, TrumpdClaim({receiver: receiver, amount: amount}))));
     }
 
-    /**
-     * @notice returns the Merkle root used for validating airdrop claims
-     * @dev provides the Merkle root stored in the contract, which is used to verify the legitimacy of a claim
-     * @return bytes32 the Merkle root for the airdrop
-     */
+    /// @dev provides the Merkle root stored in the contract, which is used to verify the legitimacy of a claim
     function getMerkleRoot() external view returns (bytes32) {
         return i_merkleRoot;
     }
 
-    /**
-     * @notice returns the address of the Trumpd ERC721 token being airdropped
-     * @dev provides the reference to the ERC721 token contract used for the airdrop
-     * @return IERC721 the Trumpd ERC721 token contract
-     */
+    /// @dev provides the reference to the ERC721 token contract used for the airdrop
     function getTrumpdToken() external view returns (IERC721) {
         return i_trumpd;
     }
