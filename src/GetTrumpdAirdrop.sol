@@ -86,7 +86,7 @@ contract GetTrumpdAirdrop is EIP712, ReentrancyGuard {
             revert GTA__AlreadyGotTrumpd();
         }
 
-        if (!_isValidSignature(receiver, getMessage(receiver, amount), v, r, s)) {
+        if (!_isValidSignature(receiver, getMessageHash(receiver, amount), v, r, s)) {
             revert GTA__SignatureInvalid();
         }
 
@@ -133,7 +133,7 @@ contract GetTrumpdAirdrop is EIP712, ReentrancyGuard {
      * @param amount number of Trumpd NFTs being claimed
      * @return bytes32 the hashed message that represents the Trumpd claim
      */
-    function getMessage(address receiver, uint256 amount) public view returns (bytes32) {
+    function getMessageHash(address receiver, uint256 amount) public view returns (bytes32) {
         return
             _hashTypedDataV4(keccak256(abi.encode(MESSAGE_TYPEHASH, TrumpdClaim({receiver: receiver, amount: amount}))));
     }

@@ -26,6 +26,7 @@ contract TestGetTrumpdAirdrop is Test {
     uint256 constant SEND_AMOUNT = 10;
 
     address owner;
+    address ogaranya; // this address is the gas payer
 
     function setUp() public {
         nftDeployer = new DeployTrumpd();
@@ -46,6 +47,8 @@ contract TestGetTrumpdAirdrop is Test {
         vm.stopPrank();
 
         (user, userPrvKey) = makeAddrAndKey("user");
+
+        ogaranya = makeAddr("ogaranya");
     }
 
     function testGTASetUp() public view {
@@ -63,10 +66,13 @@ contract TestGetTrumpdAirdrop is Test {
         uint256 initbalOfUser = nft.getAmountOfTrumpdOwned(user);
         uint256 nftInAirdrop = nft.getAmountOfTrumpdOwned(address(airdrop));
 
-        address boss; // i created this address to prove a point
+        bytes32 digest = airdrop.getMessageHash(user, CLAIM_AMOUNT);
 
-        vm.prank(boss); // I didn't need to vm.prank() anyone to call this claim function. I am using it to prove a point
-        airdrop.getTrumpd(user, CLAIM_AMOUNT, PROOF);
+        //  sign a message with user private key
+        (uint8 v, bytes32 r, bytes32 s) = vm.sign(userPrvKey, digest);
+
+        vm.prank(ogaranya); // ogaranya calls the getTrumpd function using signed message
+        airdrop.getTrumpd(user, CLAIM_AMOUNT, PROOF, v, r, s);
 
         uint256 currentBalOfUser = nft.getAmountOfTrumpdOwned(user);
         uint256 remNftInAirdrop = nft.getAmountOfTrumpdOwned(address(airdrop));
@@ -78,5 +84,15 @@ contract TestGetTrumpdAirdrop is Test {
 
         assertEq(currentBalOfUser - initbalOfUser, CLAIM_AMOUNT);
         assertEq(remNftInAirdrop, nftInAirdrop - currentBalOfUser);
+    }
+
+    function testClaimFailWithInvalidSignedMessage() public {
+        uint8 v;
+        bytes32 r;
+        bytes32 s;
+
+        vm.prank(ogaranya);
+        vm.expectRevert(GetTrumpdAirdrop.GTA__SignatureInvalid.selector);
+        airdrop.getTrumpd(user, CLAIM_AMOUNT, PROOF, v, r, s);
     }
 }
