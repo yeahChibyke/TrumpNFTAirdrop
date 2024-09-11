@@ -95,4 +95,34 @@ contract TestGetTrumpdAirdrop is Test {
         vm.expectRevert(GetTrumpdAirdrop.GTA__SignatureInvalid.selector);
         airdrop.getTrumpd(user, CLAIM_AMOUNT, PROOF, v, r, s);
     }
+
+    function testRepeatClaimWillFail() public {
+        uint256 initUserBal = nft.balanceOf(user);
+        uint256 airdropBalBeforeFirstClaim = nft.balanceOf(address(airdrop));
+
+        assert(initUserBal == 0);
+        assert(airdropBalBeforeFirstClaim == SEND_AMOUNT);
+
+        bytes32 digest = airdrop.getMessageHash(user, CLAIM_AMOUNT);
+        (uint8 x, bytes32 y, bytes32 z) = vm.sign(userPrvKey, digest);
+
+        vm.prank(ogaranya);
+        airdrop.getTrumpd(user, CLAIM_AMOUNT, PROOF, x, y, z);
+        uint256 finalUserBal = nft.balanceOf(user);
+        uint256 airdropBalAfterFirstClaim = nft.balanceOf(address(airdrop));
+
+        assert(finalUserBal == CLAIM_AMOUNT);
+        assert(finalUserBal > initUserBal);
+        assert(airdropBalBeforeFirstClaim > airdropBalAfterFirstClaim);
+
+        // Try to claim again
+        vm.prank(ogaranya);
+        vm.expectRevert(GetTrumpdAirdrop.GTA__AlreadyGotTrumpd.selector);
+        airdrop.getTrumpd(user, CLAIM_AMOUNT, PROOF, x, y, z);
+        uint256 userbalAfterFailclaim = nft.balanceOf(user);
+        uint256 airdropBalAfterFailClaim = nft.balanceOf(address(airdrop));
+
+        assert(finalUserBal == userbalAfterFailclaim);
+        assert(airdropBalAfterFirstClaim == airdropBalAfterFailClaim);
+    }
 }

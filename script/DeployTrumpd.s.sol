@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: mit
-pragma solidity ^0.8.26;
+pragma solidity ^0.8.24;
 
 import {Script, console2} from "forge-std/Script.sol";
 import {Trumpd} from "../src/Trumpd.sol";
