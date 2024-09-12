@@ -100,9 +100,10 @@ contract GetTrumpdAirdrop is EIP712, ReentrancyGuard {
 
         emit GotTrumpd(receiver, amount);
 
-        for (uint256 i = 0; i < amount; i++) {
-            i_trumpd.safeTransferFrom(address(this), receiver, i); // Assuming i is the token ID
-        }
+        // for (uint256 i = 0; i < amount; i++) {
+        //     i_trumpd.safeTransferFrom(address(this), receiver, i); // Assuming i is the token ID
+        // }
+        i_trumpd.safeTransferFrom(address(this), receiver, amount);
     }
 
     // >---> Internal Functions
@@ -146,5 +147,13 @@ contract GetTrumpdAirdrop is EIP712, ReentrancyGuard {
     /// @dev provides the reference to the ERC721 token contract used for the airdrop
     function getTrumpdToken() external view returns (IERC721) {
         return i_trumpd;
+    }
+
+    function getClaimStatus(address claimant) external view returns (bool) {
+        if (s_hasGotTrumpd[claimant]) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

@@ -21,5 +21,5 @@ remappings = [
     "openzeppelin-contracts/=lib/openzeppelin-contracts/",
     "Foundry-Devops/=lib/Foundry-Devops",
 ]
-
+via-ir = true
 # See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options

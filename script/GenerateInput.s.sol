@@ -14,10 +14,10 @@ contract GenerateInput is Script {
     function run() public {
         types[0] = "address";
         types[1] = "uint";
-        whitelist[0] = "0xBf0b5A4099F0bf6c8bC4252eBeC548Bae95602Ea";
-        whitelist[1] = "0x4dBa461cA9342F4A6Cf942aBd7eacf8AE259108C";
-        whitelist[2] = "0xaF586d590DD21A2a76A091B3327C60C312D75539";
-        whitelist[3] = "0x0efc4FbDBfB1500928cF198b18c6262f3E5333FC";
+        whitelist[0] = "0xfc5A3Aea53893960D27905Ec09249fc38eA0cF05";
+        whitelist[1] = "0xC929199353F1000B29a751d0966b3fCf8039e1AF";
+        whitelist[2] = "0x00b1332ed5e1f7C03268b295c397fEe7cdB852c6";
+        whitelist[3] = "0x3B9d9d985B62c6cA2399f29eAc069DD018474Fd3";
         count = whitelist.length;
         string memory input = _createJSON();
         // write to the output file the stringified output json tree dumpus
