@@ -14,7 +14,7 @@ contract Trumpd is ERC721, Ownable {
     string private s_trumpdSvgImageUri;
 
     // >------< Events >-----<
-    event TrumpdMinted(address indexed receiver);
+    event TrumpdMinted(address indexed receiver, uint256 amountOfTrumpdMinted);
 
     // >------< Constructor >-----<
     constructor(string memory trumpdSvgImageUri) ERC721("Trumpd NFT", "TRUMPD") Ownable(msg.sender) {
@@ -26,7 +26,7 @@ contract Trumpd is ERC721, Ownable {
     function mintTrumpd(address receiver, uint256 amount) external {
         for (uint256 i = 0; i < amount; i++) {
             _safeMint(receiver, s_tokenCounter);
-            emit TrumpdMinted(receiver);
+            emit TrumpdMinted(receiver, s_tokenCounter);
             s_tokenCounter++;
         }
     }
